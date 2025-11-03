@@ -1,0 +1,18 @@
+1. What would happen if you used notify() instead of notifyAll()? Why might this cause problems? 
+- If notify() is used instead of notifyAll() then only one waiting thread would be awakened. This would cause problems as if for example a producer woke another producer while the buffer was still full it would create a deadlock. A similar problem
+would occur if a consumer woke another consumer while the buffer is empty which would have the threads wait forever. 
+
+2. Why must wait() be called inside a while loop rather than an if statement? What problem does this solve?
+- Wait() must be called inside a while loop rather than an if statement because sometimes Threads can wake without being notified. In an if statement, the condition might no longer hold when the thread eventually resumes. 
+The while loop ensures the thread rechecks the condition before proceeding which ensures correctness and avoids over and underflows.
+
+3. What would happen if the produce() method wasn't synchronized? Could two producers add items at the same time? 
+-If the produce() method wasn't synchronized then multiple producers could enter and modify the buffer simultaneosly. This could lead to exceeding of buffer capacity and race conditions as two producers add items to one free slot 
+which would cause problems to the shared state. 
+
+4. What happens if you forget to call notifyAll() in the produce() method? How would this affect the consumer thread? 
+-If you forget to call notifyALL() in the produce() method then consumers wouold never wake up once the thread emptied. The producers would continue adding items but the consumers would never know about the new additions which would lead to consumers being 
+blocked indefinitely, stalling the system.
+
+5. Why does wait() release the lock? What would happen if it didn't?
+- Wait() releases the lock so it can be used by other threads. If wait() never released the lock then no other thread could enter the block to change the condition, causing permanent deadlock. 
