@@ -39,50 +39,65 @@ public class ProducerConsumerLab {
         }
     }
 
-    /**
-     * TODO 1: Implement Producer class
-     * Create a class that implements Runnable and:
-     * 1. Has a private SharedBuffer field
-     * 2. Has a constructor that accepts SharedBuffer parameter
-     * 3. In run() method:
-     *    - Use try-catch for InterruptedException
-     *    - Loop 10 times (i from 0 to 9)
-     *    - Call buffer.produce(i) each iteration
-     *    - Print "[Producer] finished producing 10 items" when done
-     *    - In catch block, print "[Producer] was interrupted"
-     */
-    static class Producer implements Runnable {
-        // TODO 1: Implement Producer class here
-        // Step 1: Add private SharedBuffer field
 
-        // Step 2: Add constructor
-        public Producer(SharedBuffer buffer) {
-            // Initialize the buffer field
+    static class Producer implements Runnable 
+    {
+        private final SharedBuffer buffer;
+
+
+        public Producer(SharedBuffer buffer) 
+        {
+            this.buffer = buffer;
         }
 
-        // Step 3: Implement run() method
+        
         @Override
-        public void run() {
-            // Add your implementation here
+        public void run() 
+        {
+            try
+            {
+                for(int i = 0; i < 10; i++)
+                {
+                    buffer.produce(i);
+                    Thread.sleep(100);
+                }
+                System.out.println("[Producer] finished producing 10 times");
+            }
+            catch (InterruptedException e)
+            {
+                System.out.println("[Producer] was interrupted");
+            }
         }
     }
 
-    /**
-     * TODO 2: Implement Consumer class
-     */
-    static class Consumer implements Runnable {
-        // TODO 2: Implement Consumer class here
-        // Step 1: Add private SharedBuffer field
+    
+    static class Consumer implements Runnable 
+    {
+        private final SharedBuffer buffer;
 
-        // Step 2: Add constructor
-        public Consumer(SharedBuffer buffer) {
-            // Initialize the buffer field
+       
+        public Consumer(SharedBuffer buffer) 
+        {
+            this.buffer = buffer;
         }
 
-        // Step 3: Implement run() method
+      
         @Override
-        public void run() {
-            // Add your implementation here
+        public void run() 
+        {
+            try 
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    buffer.consume();
+                    Thread.sleep(150);
+                }
+                System.out.println("[Consumer] finished consuming 10 items");
+            }
+            catch (InterruptedException e)
+            {
+                System.out.println("[Consumer] was interrupted");
+            }
         }
     }
 
